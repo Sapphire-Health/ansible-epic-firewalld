@@ -1,0 +1,9 @@
+---
+  galaxy_info:
+    role_name: ansible-epic-firewalld
+    author: Lyas Spiehler
+    description: Ansible role to configure firewalld for Epic RHEL servers
+    company: Sapphire Health
+  collections: []
+  dependencies: []
+...
