@@ -11,3 +11,4 @@
       permanent: yes
       state: enabled
     loop: "{{ firewall }}"
+    when: firewall is defined
