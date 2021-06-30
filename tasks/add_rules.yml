@@ -1,0 +1,41 @@
+- name: Make sure the firewalld service is started and enabled
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+- name: Create firewall rules for each SuperServer
+  firewalld:
+    port: "{{ item.SuperServerPort }}/tcp"
+    #zone: "{{ item.zone }}"
+    #immediate: "{{ item.immediate }}"
+    #permanent: "{{ item.permanent }}"
+    #state: "{{ item.state }}"
+    zone: public
+    immediate: yes
+    permanent: yes
+    state: enabled
+  loop: "{{ answer_file.Instances }}"
+- name: Create firewall rules for each WebServer
+  firewalld:
+    port: "{{ item.WebServerPort }}/tcp"
+    #zone: "{{ item.zone }}"
+    #immediate: "{{ item.immediate }}"
+    #permanent: "{{ item.permanent }}"
+    #state: "{{ item.state }}"
+    zone: public
+    immediate: yes
+    permanent: yes
+    state: enabled
+  loop: "{{ answer_file.Instances }}"
+- name: Add firewall rules from supplied vars  
+  firewalld:
+    port: "{{ item.port }}"
+    #zone: "{{ item.zone }}"
+    #immediate: "{{ item.immediate }}"
+    #permanent: "{{ item.permanent }}"
+    #state: "{{ item.state }}"
+    zone: public
+    immediate: yes
+    permanent: yes
+    state: enabled
+  loop: "{{ firewall }}"
