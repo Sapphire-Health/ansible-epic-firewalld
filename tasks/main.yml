@@ -1,4 +1,9 @@
 ---
+  - name: Start and enable firewalld service
+    service:
+      name: firewalld
+      state: started
+      enabled: yes
   - name: Configure firewalld
     include_tasks: add_rules.yml
     when: firewall is defined

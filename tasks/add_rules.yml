@@ -27,15 +27,21 @@
     permanent: yes
     state: enabled
   loop: "{{ answer_file.Instances }}"
-- name: Add firewall rules from supplied vars  
+- name: Enable firewall ports from supplied vars  
   firewalld:
     port: "{{ item.port }}"
-    #zone: "{{ item.zone }}"
-    #immediate: "{{ item.immediate }}"
-    #permanent: "{{ item.permanent }}"
-    #state: "{{ item.state }}"
-    zone: public
-    immediate: yes
-    permanent: yes
-    state: enabled
-  loop: "{{ firewall }}"
+    zone: "{{ item.zone | default('public') }}"
+    immediate: "{{ item.immediate | default('yes') }}"
+    permanent: "{{ item.permanent | default('yes') }}"
+    state: "{{ item.state | default('enabled') }}"
+  loop: "{{ firewall.ports }}"
+  when: firewall.ports is defined
+- name: Enable firewall services from supplied vars  
+  firewalld:
+    service: "{{ item.service }}"
+    zone: "{{ item.zone | default('public') }}"
+    immediate: "{{ item.immediate | default('yes') }}"
+    permanent: "{{ item.permanent | default('yes') }}"
+    state: "{{ item.state | default('enabled') }}"
+  loop: "{{ firewall.services }}"
+  when: firewall.services is defined
